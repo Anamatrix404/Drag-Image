@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and drop Image</title>
+    <style>
+        body {
+            background-color: bisque;
+        }
+        .imgBox {
+            width: 12rem;
+            height: 12rem;
+            position: relative;
+            background-image: url('8.jpg');
+            background-image: url(8.jpg);
+            background-position: center;
+            background-size: contain;
+            cursor: pointer;
+        }
+        .box {
+            width: 12rem;
+            height: 12rem;
+            background-color: #fff;
+            margin: 0 .5rem;
+            display: inline-block;
+            border: 2px solid white;
+        }
+        .hold{
+            border: 2px solid black;
+        }
+        .hide{
+            display: none;
+        }
+        .dashed{
+            background-color: burlywood;
+            border-style: dashed;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="imgBox" draggable="true"></div>
+    </div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+
+    <script>
+        let boxes = document.getElementsByClassName("box")
+        let imgBox = document.querySelector(".imgBox")
+
+        //event listeners for draggable element
+        imgBox.addEventListener('dragstart',(e)=>{
+            console.log("dragstart")
+            e.target.className += " hold"
+            setTimeout(()=>{
+                e.target.className = "hide"
+            },0)
+        });
+        imgBox.addEventListener("dragend",(e)=>{
+            console.log("dragend")
+            e.target.className = "imgBox"
+        })
+
+        for(box of boxes){
+            box.addEventListener("dragover",(e)=>{
+                e.preventDefault()
+                console.log("dragover")
+            })
+            box.addEventListener("dragenter",(e)=>{
+                console.log("dragenter")
+                e.target.className += " dashed"
+            })
+            box.addEventListener("dragleave",(e)=>{
+                console.log("dragleave")
+                e.target.className = "box"
+            })
+            box.addEventListener("drop",(e)=>{
+                console.log("drop")
+                e.target.append(imgBox)
+            })
+        }
+    </script>
+</body>
+</html>
